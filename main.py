@@ -15,7 +15,6 @@ SPOTIFY_TOKEN_URL = "https://accounts.spotify.com/api/token"
 SPOTIFY_API_BASE_URL = "https://api.spotify.com"
 API_VERSION = "v1"
 SPOTIFY_API_URL = "{}/{}".format(SPOTIFY_API_BASE_URL, API_VERSION)
-authToken =''
 app = Flask(__name__)
 
 def spotifyAPI(auth_header, reqString, param,reqType='GET'):
@@ -61,8 +60,8 @@ def callback():
 
     #create Auth header for every request
     access_token = response_data['access_token']
+    global authToken
     authToken = access_token
-    #print(access_token)
     auth_header = {"Authorization": "Bearer {}".format(access_token)}
     
     #-----AUTH FINISHED
@@ -82,8 +81,13 @@ def callback():
 
 @app.route('/playback')
 def playback():
-    #TODO pass authtoken
-    return render_template('playback.html')
+    try:
+        if authToken != '':
+            return render_template('playback.html',authToken = authToken)
+
+    except:
+        return "login first -> redirectto logon pahge"
+
 
 
     
