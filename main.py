@@ -91,7 +91,10 @@ def playback():
     except:
         return "login first -> redirectto logon pahge"
 
-
+@app.route('/api', methods=['GET'])
+def apiCall():
+    print("CALLED")
+    return "ghjggjg"
     
 
 if __name__ == "__main__":

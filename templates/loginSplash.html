@@ -8,7 +8,8 @@
     <link href="{{url_for('static',filename='styles.css')}}" rel="stylesheet" />
     <link href="https://cdn.datatables.net/1.10.20/css/dataTables.bootstrap4.min.css" rel="stylesheet"
         crossorigin="anonymous" />
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.1/js/all.min.js"
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.5.1/jquery.min.js"
+        integrity="sha512-bLT0Qm9VnAYZDflyKcBaQ2gg0hSYNQrJ8RilYldYQ1FxQYoCLtUjuuRuZo+fjqhx/qtq/1itJ0C2ejDxltZVFg=="
         crossorigin="anonymous"></script>
 </head>
 
@@ -31,7 +32,12 @@
             </form>
         </div>
     </div>
-    <script src="{{ url_for('static', filename='apiCall.js') }}"></script>
+    <script src="http://code.jquery.com/jquery-1.11.0.min.js"></script>
+    <script type=text/javascript>
+        $SCRIPT_ROOT = {{ request.script_root|tojson|safe }};
+        console.log($SCRIPT_ROOT)
+        </script>
+    <script src="{{url_for('static', filename='apiCall.js')}}"></script>
 
 </body>
 
