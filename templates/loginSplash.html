@@ -5,13 +5,33 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>WEBAPI</title>
+    <link href="{{url_for('static',filename='styles.css')}}" rel="stylesheet" />
+    <link href="https://cdn.datatables.net/1.10.20/css/dataTables.bootstrap4.min.css" rel="stylesheet"
+        crossorigin="anonymous" />
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.1/js/all.min.js"
+        crossorigin="anonymous"></script>
 </head>
 
 <body>
     <div class="container">
         <div class=></div>
         <a href="{{url_for('playback') }}" class="">CLICK HERE FOR playback</a>
+        <div class="card-body">
+            <form>
+                <div class="form-group">
+                    <label class="small mb-1" for="apiUrl">API</label>
+                    <input class="form-control py-4" id="apiUrl" type="text" placeholder="API URL" />
+                </div>
+                <div class="form-group">
+                    <label class="small mb-1" for="param">paramVal</label>
+                    <input class="form-control py-4" id="param" type="text" placeholder="param" />
+                    <div class="form-group d-flex align-items-center justify-content-between mt-4 mb-0">
+                        <button class='btn' id='submit'>Go</button>
+                    </div>
+            </form>
+        </div>
     </div>
+    <script src="{{ url_for('static', filename='apiCall.js') }}"></script>
 
 </body>
 
