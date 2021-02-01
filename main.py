@@ -21,7 +21,7 @@ def spotifyAPI(reqString, param,reqType='GET'):
     print("in SPOOTIFYAPI")
     if reqType not in ['GET','POST']:
         raise ValueError("reqType must be HTTP request type (get,post")
-    rString = '{}/{}'.format(SPOTIFY_API_URL,reqString)
+    rString = '{}/{}?{}'.format(SPOTIFY_API_URL,reqString,param)
     if reqType == 'GET':
         print("MAKING CALL",rString)
         apiResponse = requests.get(rString, headers=auth_header)
@@ -85,8 +85,8 @@ def apiCall():
     #Parse api request, construct spotify api call and send back result
     #apiURL shoould not begin with /
     #param is optional
-    apiCall = '{}{}'.format(request.args['apiUrl'], request.args['param'])
-    return spotifyAPI(apiCall,'')
+    #apiCall = '{}{}'.format(request.args['apiUrl'], request.args['param'])
+    return spotifyAPI(request.args['apiUrl'],request.args['param'])
     
   
     

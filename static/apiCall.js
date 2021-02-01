@@ -1,5 +1,6 @@
 console.log("THIS FILE LOOADED");
 $(document).on('click', '#submit', function (e) {
+    $('.listResult').empty()
     e.preventDefault()
     var obj = {};
 
@@ -17,12 +18,16 @@ $(document).on('click', '#submit', function (e) {
             console.log(data['items'])
             for (let x = 0; x <= data['items'].length; x++) {
                 console.log(data['items'][x])
-                let currItem = document.createElement('li');
+                let nameData = document.createElement('td');
+                let imageData = document.createElement('td');
                 let albImg = document.createElement('img');
                 albImg.src = data['items'][x]['album']['images'][2]['url'];
-                currItem.append(data['items'][x]['name'], albImg);
+                nameData.append(data['items'][x]['name']);
+                imageData.append(albImg)
 
-                $('.listResult').append(currItem, albImg);
+                let tableRow = document.createElement('tr');
+                tableRow.append(imageData, nameData);
+                $('.listResult').append(tableRow);
             }
 
 
