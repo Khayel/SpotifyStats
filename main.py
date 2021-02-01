@@ -8,7 +8,7 @@ auth_payload = {
     'client_id': client_id,
     'response_type': 'code',
     'redirect_uri': 'http://localhost:5000/callback/q',
-    'scope': 'playlist-modify-public playlist-modify-private'    
+    'scope': 'playlist-modify-public playlist-modify-private streaming user-read-email user-read-private'    
 }
 SPOTIFYAUTH_URL = "https://accounts.spotify.com/authorize"
 SPOTIFY_TOKEN_URL = "https://accounts.spotify.com/api/token"
@@ -59,7 +59,10 @@ def callback():
 
 
     #create Auth header for every request
-    access_token = response_data['access_token']
+    try:
+        access_token = response_data['access_token']
+    except:
+        return "NOACCESS TOKEN"
     global authToken
     authToken = access_token
     auth_header = {"Authorization": "Bearer {}".format(access_token)}
@@ -87,7 +90,6 @@ def playback():
 
     except:
         return "login first -> redirectto logon pahge"
-
 
 
     
