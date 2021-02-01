@@ -8,7 +8,7 @@ auth_payload = {
     'client_id': client_id,
     'response_type': 'code',
     'redirect_uri': 'http://localhost:5000/callback/q',
-    'scope': 'playlist-modify-public playlist-modify-private streaming user-read-email user-read-private'    
+    'scope': 'playlist-modify-public user-top-read playlist-modify-private streaming user-read-email user-read-private'    
 }
 SPOTIFYAUTH_URL = "https://accounts.spotify.com/authorize"
 SPOTIFY_TOKEN_URL = "https://accounts.spotify.com/api/token"
@@ -17,15 +17,15 @@ API_VERSION = "v1"
 SPOTIFY_API_URL = "{}/{}".format(SPOTIFY_API_BASE_URL, API_VERSION)
 app = Flask(__name__)
 
-def spotifyAPI(auth_header, reqString, param,reqType='GET'):
+def spotifyAPI(reqString, param,reqType='GET'):
     print("in SPOOTIFYAPI")
     if reqType not in ['GET','POST']:
         raise ValueError("reqType must be HTTP request type (get,post")
     rString = '{}/{}'.format(SPOTIFY_API_URL,reqString)
     if reqType == 'GET':
-        print(auth_header)
+        print("MAKING CALL",rString)
         apiResponse = requests.get(rString, headers=auth_header)
-        return json.loads(apiResponse.text)
+        return apiResponse.json()
 
 
 @app.route("/")
@@ -45,7 +45,7 @@ def callback():
     #use code,redirect uri(only for validation), and client id and secret
     #to get Access and refresh token
     #permission denied or error
-    
+    print("CALLBACK CALLED")
     payload = {
         "grant_type": "authorization_code",
         "code": str(request.args['code']),
@@ -56,8 +56,6 @@ def callback():
     r = requests.post(SPOTIFY_TOKEN_URL,payload)
     print(r)
     response_data = json.loads(r.text)
-
-
     #create Auth header for every request
     try:
         access_token = response_data['access_token']
@@ -65,21 +63,12 @@ def callback():
         return "NOACCESS TOKEN"
     global authToken
     authToken = access_token
+    global auth_header 
     auth_header = {"Authorization": "Bearer {}".format(access_token)}
     
     #-----AUTH FINISHED
-    result = spotifyAPI(auth_header,reqString='me',param='')
+    result = spotifyAPI(reqString='me',param='')
     print(result)
-
-
-    #user_profile_api_endpoint = "{}/me".format(SPOTIFY_API_URL)
-
-    #profile_response = requests.get(user_profile_api_endpoint, headers=authorization_header)
-    #profile_data = json.loads(profile_response.text)
-    #playlist_api_endpoint = "{}/playlists".format(profile_data["href"])
-    #playlists_response = requests.get(playlist_api_endpoint, headers=authorization_header)
-    #playlist_data = json.loads(playlists_response.text)
-    #display_arr = [profile_data] + playlist_data["items"]
     return render_template("loginSplash.html", sorted_array=result)
 
 @app.route('/playback')
@@ -93,8 +82,13 @@ def playback():
 
 @app.route('/api', methods=['GET'])
 def apiCall():
-    print("CALLED")
-    return "ghjggjg"
+    #Parse api request, construct spotify api call and send back result
+    #apiURL shoould not begin with /
+    #param is optional
+    apiCall = '{}{}'.format(request.args['apiUrl'], request.args['param'])
+    return spotifyAPI(apiCall,'')
+    
+  
     
 
 if __name__ == "__main__":
