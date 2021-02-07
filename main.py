@@ -1,5 +1,6 @@
 import json
 from flask import Flask, request, redirect, g, render_template, url_for
+from flask_restful import Resource, Api
 import requests
 
 client_id = '36567bdba090467cbc6b6654ffbac5e6'
@@ -15,13 +16,14 @@ SPOTIFY_TOKEN_URL = "https://accounts.spotify.com/api/token"
 SPOTIFY_API_BASE_URL = "https://api.spotify.com"
 API_VERSION = "v1"
 SPOTIFY_API_URL = "{}/{}".format(SPOTIFY_API_BASE_URL, API_VERSION)
+
+
 app = Flask(__name__)
+api = Api(app)
 
 
 def spotifyAPI(reqString, param, reqType='GET'):
     print("in SPOOTIFYAPI")
-    if reqType not in ['GET', 'POST']:
-        raise ValueError("reqType must be HTTP request type (get,post")
     rString = '{}/{}?{}'.format(SPOTIFY_API_URL, reqString, param)
     if reqType == 'GET':
         print("API REQUEST: ", rString)
@@ -35,6 +37,12 @@ def home():
     top3Track = spotifyAPI('me/top/tracks', 'limit=3&time_range=long_term')
     top3Artist = spotifyAPI('me/top/artists', 'limit=3&time_range=long_term')
     return render_template('index.html', top3Track=top3Track, top3Artist=top3Artist)
+
+
+@app.route("/topTracks")
+def topTracks():
+    topTracks = spotifyAPI('me/top/tracks', 'time_range=long_term')
+    return render_template("topTracks.html", topTracks=topTracks)
 
 
 @app.route("/")
@@ -91,13 +99,13 @@ def playback():
         return "login first -> redirectto logon pahge"
 
 
-@ app.route('/api', methods=['GET'])
-def apiCall():
+# @ app.route('/api', methods=['GET'])
+# def apiCall():
     # Parse api request, construct spotify api call and send back result
     # apiURL shoould not begin with /
     # param is optional
     # apiCall = '{}{}'.format(request.args['apiUrl'], request.args['param'])
-    return spotifyAPI(request.args['apiUrl'], request.args['param'])
+ #   return spotifyAPI(request.args['apiUrl'], request.args['param'])
 
 
 if __name__ == "__main__":
