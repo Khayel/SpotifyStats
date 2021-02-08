@@ -18,6 +18,11 @@ API_VERSION = "v1"
 SPOTIFY_API_URL = "{}/{}".format(SPOTIFY_API_BASE_URL, API_VERSION)
 
 
+class topTrackOptioons(Resource):
+    def get(self, time_range):
+        return spotifyAPI('me/top/tracks', 'time_range={}'.format(time_range))
+
+
 app = Flask(__name__)
 api = Api(app)
 
@@ -41,7 +46,7 @@ def home():
 
 @app.route("/topTracks")
 def topTracks():
-    topTracks = spotifyAPI('me/top/tracks', 'time_range=long_term')
+    topTracks = spotifyAPI('me/top/tracks', 'time_range=short_term')
     return render_template("topTracks.html", topTracks=topTracks)
 
 
