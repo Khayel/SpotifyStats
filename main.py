@@ -18,13 +18,15 @@ API_VERSION = "v1"
 SPOTIFY_API_URL = "{}/{}".format(SPOTIFY_API_BASE_URL, API_VERSION)
 
 
-class topTrackOptioons(Resource):
-    def get(self, time_range):
-        return spotifyAPI('me/top/tracks', 'time_range={}'.format(time_range))
+class topTrackOptions(Resource):
+    def get(self):
+        return spotifyAPI('me/top/tracks', 'time_range={}'.format(request.args['time_range']))
 
 
 app = Flask(__name__)
 api = Api(app)
+
+api.add_resource(topTrackOptions, '/api/dateRange')
 
 
 def spotifyAPI(reqString, param, reqType='GET'):
@@ -37,20 +39,20 @@ def spotifyAPI(reqString, param, reqType='GET'):
         return apiResponse.json()
 
 
-@app.route("/dashboard")
+@ app.route("/dashboard")
 def home():
     top3Track = spotifyAPI('me/top/tracks', 'limit=3&time_range=long_term')
     top3Artist = spotifyAPI('me/top/artists', 'limit=3&time_range=long_term')
     return render_template('index.html', top3Track=top3Track, top3Artist=top3Artist)
 
 
-@app.route("/topTracks")
+@ app.route("/topTracks")
 def topTracks():
     topTracks = spotifyAPI('me/top/tracks', 'time_range=short_term')
     return render_template("topTracks.html", topTracks=topTracks)
 
 
-@app.route("/")
+@ app.route("/")
 def index():
     # Auth Step 1: Authorization creates url string with authorizatioon payload
     url_args = "&".join(["{}={}".format(key, val)
@@ -63,7 +65,7 @@ def index():
 # Redirect URI calls callback with auth code and state
 
 
-@app.route("/callback/q")
+@ app.route("/callback/q")
 def callback():
     # use code,redirect uri(only for validation), and client id and secret
     # to get Access and refresh token
