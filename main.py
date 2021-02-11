@@ -54,6 +54,11 @@ def topTracks():
 
 @ app.route("/")
 def index():
+    return render_template('intro.html')
+
+
+@app.route("/login")
+def login():
     # Auth Step 1: Authorization creates url string with authorizatioon payload
     url_args = "&".join(["{}={}".format(key, val)
                          for key, val in auth_payload.items()])
