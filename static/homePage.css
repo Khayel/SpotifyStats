@@ -1,0 +1,67 @@
+html{
+    background: rgb(2,0,36);
+background: linear-gradient(90deg, rgba(2,0,36,1) 0%, rgba(116,0,184,1) 60%, rgba(128,255,219,1) 100%);
+}
+body{
+padding: 2vH;
+}
+h1{
+    font-size: 10vH;
+}
+h3{
+    font-size: 2vh;
+}
+h1,h3 {
+    color: #80ffdb;
+    font-family: 'Sora', sans-serif;
+}
+
+.parent {
+    display: grid;
+    grid-template-columns: 4fr 2fr;
+    grid-template-rows: 1fr;
+    grid-row-gap: 0px;
+    height: 70vH;
+    
+   
+    }
+    a{
+        text-decoration: none;}
+    
+    .div1 { grid-area: 1 / 1 / 2 / 2;
+        display: flex;
+        flex-direction: column;
+        align-content: right;
+        justify-content: center;
+        text-align: center
+     }
+    .div2 { grid-area: 1 / 2 / 2 / 3;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        padding: 5vH;
+     }
+
+     .btn {
+        border-radius: 60px;
+        font-family: 'Sora', sans-serif;
+        text-transform: uppercase;
+        color: white;
+        font-size: 2vH;
+        border: 2px;
+        border-color: white;
+        background: #00cf18;
+        padding: 11px 20px 10px 20px;
+        text-decoration: none;
+        transition: 0.4s;
+        max-height: 70px;
+        max-width: 350px;
+      }
+      
+      .btn:hover {
+        background: white;
+        text-decoration: none;
+        color: #7400b8;
+        transform:scale(1.1);
+        transition: 0.4s;
+      }
