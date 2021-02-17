@@ -49,7 +49,7 @@ def home():
 @ app.route("/topTracks")
 def topTracks():
     topTracks = spotifyAPI('me/top/tracks', 'time_range=short_term')
-    return render_template("topTracks.html", topTracks=topTracks)
+    return render_template("tracks.html", topTracks=topTracks)
 
 
 @ app.route("/")

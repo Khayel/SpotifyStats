@@ -1,0 +1,40 @@
+* {font-family: 'Sora', sans-serif;
+     margin: 0;
+      padding: 0;
+       box-sizing: border-box;
+    }
+
+    html, body {
+        height: 100vh;
+        width: 100vw;
+        padding: none;
+        margin: none;
+        font-family: 'Sora', sans-serif;
+        box-sizing: border-box;
+    }
+
+html{
+background: linear-gradient( rgba(2,0,36,1) 0%, rgba(116,0,184,1) 60%, rgba(128,255,219,1) 100%);
+}
+
+.resultTable{
+    background: white;
+    width: 75%;
+}
+
+
+.selected{
+    background-color:rgba(116,0,184,1);
+    color: white;
+}
+tr{
+    transition: 0.2s;
+}
+tr:hover{
+    background-color: black;
+}
+.main-content{
+    display: flex;
+    justify-content: center;
+    background-color: blue;
+}
