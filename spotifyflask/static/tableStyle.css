@@ -18,7 +18,8 @@ background: linear-gradient( rgba(2,0,36,1) 0%, rgba(116,0,184,1) 60%, rgba(128,
 }
 
 .resultTable{
-    background: white;
+    background: gray;
+    opacity: .9;
     width: 75%;
 }
 
@@ -29,9 +30,11 @@ background: linear-gradient( rgba(2,0,36,1) 0%, rgba(116,0,184,1) 60%, rgba(128,
 }
 tr{
     transition: 0.2s;
+    margin: 2px;
 }
 tr:hover{
     background-color: black;
+    opacity: 1;
 }
 .main-content{
     display: flex;

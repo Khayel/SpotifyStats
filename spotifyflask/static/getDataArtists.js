@@ -9,7 +9,7 @@ function updatePage(time_range) {
         'time_range': time_range
     }
     console.log(obj)
-    $.get($SCRIPT_ROOT + '/api/dateRange', obj,
+    $.get($SCRIPT_ROOT + '/api/dateRange/artists', obj,
         function (data, status, jqXHR) {
             for (let x = 0; x < data['items'].length; x++) {
                 console.log(status)
