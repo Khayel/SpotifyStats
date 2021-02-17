@@ -1,6 +1,5 @@
-console.log("THIS FILE LOOADED");
 function clearSelected() {
-    $('.topTrackResult').empty()
+    $('.topArtists').empty()
     document.querySelectorAll('.time_range').forEach(bt => bt.classList.remove('selected'));
 };
 
@@ -8,31 +7,27 @@ function updatePage(time_range) {
     let obj = {
         'time_range': time_range
     }
-    console.log(obj)
     $.get($SCRIPT_ROOT + '/api/dateRange/artists', obj,
         function (data, status, jqXHR) {
-            for (let x = 0; x < data['items'].length; x++) {
-                console.log(status)
-                console.log(data['items'][x])
-                let nametopTracks = document.createElement('td');
-                let imagetopTracks = document.createElement('td');
+            console.log(data)
+            data['items'].forEach((item) => {
+                let nametopArtist = document.createElement('td');
+                let imagetopArtist = document.createElement('td');
                 let albImg = document.createElement('img');
-                let albumName = document.createElement('td');
-                let artistName = document.createElement('td');
-                albImg.src = data['items'][x]['album']['images'][2]['url'];
-                nametopTracks.append(data['items'][x]['name']);
-                imagetopTracks.append(albImg);
 
-                albumName.append(data['items'][x]['album']['name']);
-                artistName.append(data['items'][x]['artists'][0]['name']);
-
-
+                let spLink = document.createElement('a');
+                spLink.href = item['external_urls']['spotify'];
+                albImg.src = item['images'][0]['url'];
+                spLink.append(item['name']);
+                imagetopArtist.append(albImg, spLink);
+                albImg.classList.add('imgArtist');
                 let tableRow = document.createElement('tr');
-                tableRow.append(imagetopTracks, nametopTracks, albumName, artistName);
-                $('.topTrackResult').append(tableRow);
-            }
+                tableRow.append(imagetopArtist);
+                $('.topArtists').append(tableRow);
+
+            })
         })
-};
+}
 let shorts = document.querySelector('.short_term');
 let medium = document.querySelector('.medium_term');
 let long = document.querySelector('.long_term');
@@ -55,4 +50,5 @@ document.querySelector('.long_term').addEventListener('click', (e) => {
     long.classList.add('selected')
 });
 
+// Default page looad
 updatePage('short_term')

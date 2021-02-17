@@ -22,11 +22,16 @@ class topTrackOptions(Resource):
     def get(self):
         return spotifyAPI('me/top/tracks', 'time_range={}'.format(request.args['time_range']))
 
+class topArtistOptions(Resource):
+    def get(self):
+        return spotifyAPI('me/top/artists','time_range={}'.format(request.args['time_range']))
 
 app = Flask(__name__)
 api = Api(app)
 
-api.add_resource(topTrackOptions, '/api/dateRange')
+api.add_resource(topTrackOptions, '/api/dateRange/tracks')
+api.add_resource(topArtistOptions, '/api/dateRange/artists')
+
 
 
 def spotifyAPI(reqString, param, reqType='GET'):
@@ -40,17 +45,24 @@ def spotifyAPI(reqString, param, reqType='GET'):
 
 
 @ app.route("/dashboard")
-def home():
+def dashboard():
     top3Track = spotifyAPI('me/top/tracks', 'limit=3&time_range=long_term')
     top3Artist = spotifyAPI('me/top/artists', 'limit=3&time_range=long_term')
     return render_template('index.html', top3Track=top3Track, top3Artist=top3Artist)
 
+@app.route("/home")
+def home():
+    return render_template('home.html')
 
 @ app.route("/topTracks")
 def topTracks():
     topTracks = spotifyAPI('me/top/tracks', 'time_range=short_term')
     return render_template("tracks.html", topTracks=topTracks)
 
+@ app.route("/topArtists")
+def topArtists():
+    topArtists = spotifyAPI('me/top/artists', 'time_range=short_term')
+    return render_template("artists.html", topArtists=topArtists)
 
 @ app.route("/")
 def index():
@@ -69,7 +81,8 @@ def login():
 
 # Redirect URI calls callback with auth code and state
 
-
+#callback url from Spotify API
+#Authorization code flow
 @ app.route("/callback/q")
 def callback():
     # use code,redirect uri(only for validation), and client id and secret
@@ -98,7 +111,6 @@ def callback():
     # -----AUTH FINISHED
     print("Success Authorization")
     return redirect(url_for('home'))
-    # return render_template("loginSplash.html", sorted_array=result)
 
 
 @ app.route('/playback')
@@ -109,16 +121,6 @@ def playback():
 
     except:
         return "login first -> redirectto logon pahge"
-
-
-# @ app.route('/api', methods=['GET'])
-# def apiCall():
-    # Parse api request, construct spotify api call and send back result
-    # apiURL shoould not begin with /
-    # param is optional
-    # apiCall = '{}{}'.format(request.args['apiUrl'], request.args['param'])
- #   return spotifyAPI(request.args['apiUrl'], request.args['param'])
-
 
 if __name__ == "__main__":
     app.run(debug=True)

@@ -38,11 +38,7 @@ html, body {
 }
 
 
-@media (max-width: 968px) {
-    {
-        flex-wrap: wrap;
-   }
-}
+
 @media (max-width: 968px) {
      .item {
         width: 100%;

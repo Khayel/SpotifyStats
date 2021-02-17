@@ -7,7 +7,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Document</title>
     <link rel="stylesheet" href="{{ url_for('static', filename= 'tableStyle.css') }}">
-    <link rel="stylesheet" href="../static/tableStyle.css">
+    <!-- <link rel="stylesheet" href="../static/tableStyle.css"> -->
     <link rel="preconnect" href="https://fonts.gstatic.com">
     <link href="https://fonts.googleapis.com/css2?family=Sora:wght@800&display=swap" rel="stylesheet">
 
@@ -18,9 +18,13 @@
 
     <header>
         <h2>Top Tracks</h2>
-        <button class="short_term time_range selected">Short Term(4 weeks)</button>
-        <button class="medium_term time_range">Medium term(6 months)</button>
-        <button class="long_term time_range">Long Term(All-time?)</button>
+        <nav>
+
+            <button class="short_term time_range selected">Short Term(4 weeks)</button>
+            <button class="medium_term time_range">Medium term(6 months)</button>
+            <button class="long_term time_range">Long Term(All-time?)</button>
+
+        </nav>
     </header>
     <div class="main-content">
         <table class="resultTable" id="dataTable" width="100%" cellspacing="0">
@@ -31,7 +35,10 @@
 
                 </tr>
             </thead>
-            <tbody class="topTrackResult">
+
+            <tbody class="topArtists">
+            </tbody>
+
             </tbody>
         </table>
     </div>
@@ -40,8 +47,8 @@
         $SCRIPT_ROOT = {{ request.script_root|tojson|safe }};
         console.log($SCRIPT_ROOT)
         </script>
-    <script src="../static/getData.js"></script>
-    <script src="{{url_for('static', filename='getDataTracks.js')}}"></script>
+    <!-- <script src="../static/getDataArtists.js"></script> -->
+    <script src="{{url_for('static', filename='getDataArtists.js')}}"></script>
     </div>
 </body>
 
