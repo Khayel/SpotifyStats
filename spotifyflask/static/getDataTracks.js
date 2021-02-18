@@ -1,4 +1,5 @@
 console.log("THIS FILE LOOADED");
+updatePage('short_term')
 function clearSelected() {
     $('.topTrackResult').empty()
     document.querySelectorAll('.time_range').forEach(bt => bt.classList.remove('selected'));
@@ -61,4 +62,26 @@ document.querySelector('.long_term').addEventListener('click', (e) => {
     long.classList.add('selected')
 });
 
+document.querySelector('.playlist').addEventListener('click', (e) => {
+    e.preventDefault();
+
+});
+
+$(".playlist").click(function () {
+    $(".selected").val
+    $.post($SCRIPT_ROOT + '/api/createPlaylist',
+        {
+            name: "",
+            time_range: $(".selected").val()
+        },
+        function (data, status) {
+            if (status == "success") {
+                console.log(status, data)
+                alert("Success!");
+            }
+            else {
+                alert("ERROR")
+            }
+        });
+});
 updatePage('short_term')
