@@ -26,12 +26,42 @@ class topArtistOptions(Resource):
     def get(self):
         return spotifyAPI('me/top/artists','time_range={}'.format(request.args['time_range']))
 
+class createTopTrackPlaylist(Resource):
+    def post(self):
+        #Create new Playlist
+        getUserID = spotifyAPI('me','')
+        
+        time_range = request.form.get('time_range')
+        user_id = getUserID['id']
+
+        payload ={
+            "name": "TopTracks - {}".format(time_range),
+            "description": "My Top Tracks in {}".format(time_range),
+            "public": "false"
+            }
+        newPlayListRequest = '{}/users/{}/playlists'.format(SPOTIFY_API_URL, user_id)
+        resp = requests.post(newPlayListRequest,data=json.dumps(payload),headers=auth_header)
+        resp = resp.json()
+        playlist_Id = resp['id']
+        print("PLAYLIST_ID", playlist_Id)
+
+        obj = spotifyAPI('me/top/tracks', 'time_range={}'.format(time_range))
+        uriList = ",".join([track['uri'] for track in obj['items']])
+        print("URILIST", uriList)
+
+        payload={
+        "uris":uriList
+        }
+        add_tracks = requests.post('{}/playlists/{}/tracks?uris={}'.format(SPOTIFY_API_URL,playlist_Id,uriList),headers=auth_header)
+        print(add_tracks.json())
+
+        return add_tracks.json()
 app = Flask(__name__)
 api = Api(app)
 
 api.add_resource(topTrackOptions, '/api/dateRange/tracks')
 api.add_resource(topArtistOptions, '/api/dateRange/artists')
-
+api.add_resource(createTopTrackPlaylist, '/api/createPlaylist')
 
 
 def spotifyAPI(reqString, param, reqType='GET'):
