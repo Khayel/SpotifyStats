@@ -18,9 +18,10 @@
 
     <header>
         <h2>Top Tracks</h2>
-        <button class="short_term time_range selected">Short Term(4 weeks)</button>
-        <button class="medium_term time_range">Medium term(6 months)</button>
-        <button class="long_term time_range">Long Term(All-time?)</button>
+        <button value="short_term" class="short_term time_range selected">Short Term(4 weeks)</button>
+        <button value="medium_term" class="medium_term time_range">Medium term(6 months)</button>
+        <button value="long_term" class="long_term time_range">All-time</button>
+        <button class="playlist btn btn-white btn-animate">Make a Playlist</button>
     </header>
     <div class="main-content">
         <table class="resultTable" id="dataTable" width="100%" cellspacing="0">
@@ -35,6 +36,7 @@
             </tbody>
         </table>
     </div>
+
     <script src="http://code.jquery.com/jquery-1.11.0.min.js"></script>
     <script type=text/javascript>
         $SCRIPT_ROOT = {{ request.script_root|tojson|safe }};
