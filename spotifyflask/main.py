@@ -1,5 +1,5 @@
 import json
-from flask import Flask, request, redirect, g, render_template, url_for
+from flask import Flask, request, redirect, render_template, url_for
 from flask_restful import Resource, Api
 import requests
 
@@ -26,14 +26,16 @@ class topArtistOptions(Resource):
     def get(self):
         return spotifyAPI('me/top/artists','time_range={}'.format(request.args['time_range']))
 
+#Create playlist POST https://api.spotify.com/v1/users/{user_id}/playlists 
+## with payload: name, description and public
+#Add Tracks to playlist POST https://api.spotify.com/v1/playlists/{playlist_id}/tracks?
+## with payload: uri of tracks 
 class createTopTrackPlaylist(Resource):
     def post(self):
-        #Create new Playlist
-        getUserID = spotifyAPI('me','')
-        
-        time_range = request.form.get('time_range')
+        getUserID = spotifyAPI('me','')   
         user_id = getUserID['id']
 
+        time_range = request.form.get('time_range')
         payload ={
             "name": "TopTracks - {}".format(time_range),
             "description": "My Top Tracks in {}".format(time_range),
@@ -43,19 +45,15 @@ class createTopTrackPlaylist(Resource):
         resp = requests.post(newPlayListRequest,data=json.dumps(payload),headers=auth_header)
         resp = resp.json()
         playlist_Id = resp['id']
-        print("PLAYLIST_ID", playlist_Id)
+        print("Created PlayList with ID:", playlist_Id)
 
-        obj = spotifyAPI('me/top/tracks', 'time_range={}'.format(time_range))
-        uriList = ",".join([track['uri'] for track in obj['items']])
-        print("URILIST", uriList)
-
+        trackList = spotifyAPI('me/top/tracks', 'time_range={}'.format(time_range))
         payload={
-        "uris":uriList
+        "uris":[track['uri'] for track in trackList['items']]
         }
-        add_tracks = requests.post('{}/playlists/{}/tracks?uris={}'.format(SPOTIFY_API_URL,playlist_Id,uriList),headers=auth_header)
-        print(add_tracks.json())
-
+        add_tracks =requests.post('{}/playlists/{}/tracks'.format(SPOTIFY_API_URL,playlist_Id), data=json.dumps(payload), headers=auth_header)
         return add_tracks.json()
+
 app = Flask(__name__)
 api = Api(app)
 
@@ -63,22 +61,14 @@ api.add_resource(topTrackOptions, '/api/dateRange/tracks')
 api.add_resource(topArtistOptions, '/api/dateRange/artists')
 api.add_resource(createTopTrackPlaylist, '/api/createPlaylist')
 
-
+#helper function for calling spotifyAPI
 def spotifyAPI(reqString, param, reqType='GET'):
-    print("in SPOOTIFYAPI")
     rString = '{}/{}?{}'.format(SPOTIFY_API_URL, reqString, param)
     if reqType == 'GET':
-        print("API REQUEST: ", rString)
+        print(" SPOTIFY API REQUEST: ", rString)
         apiResponse = requests.get(rString, headers=auth_header)
         print("RESULT: ", apiResponse)
         return apiResponse.json()
-
-
-@ app.route("/dashboard")
-def dashboard():
-    top3Track = spotifyAPI('me/top/tracks', 'limit=3&time_range=long_term')
-    top3Artist = spotifyAPI('me/top/artists', 'limit=3&time_range=long_term')
-    return render_template('index.html', top3Track=top3Track, top3Artist=top3Artist)
 
 @app.route("/home")
 def home():
@@ -94,6 +84,7 @@ def topArtists():
     topArtists = spotifyAPI('me/top/artists', 'time_range=short_term')
     return render_template("artists.html", topArtists=topArtists)
 
+#Landing Page
 @ app.route("/")
 def index():
     return render_template('intro.html')
@@ -109,16 +100,13 @@ def login():
     # afterpermissions accepted spotify gives redirect URI
     return redirect(auth_url)
 
-# Redirect URI calls callback with auth code and state
-
-#callback url from Spotify API
+#callback url set in Spotify API Dashboard
 #Authorization code flow
+# use code,redirect uri(only for validation), and client id and secret
+# to get Access and refresh token
+# permission denied or error
 @ app.route("/callback/q")
-def callback():
-    # use code,redirect uri(only for validation), and client id and secret
-    # to get Access and refresh token
-    # permission denied or error
-    print("CALLBACK CALLED")
+def callback():   
     payload = {
         "grant_type": "authorization_code",
         "code": str(request.args['code']),
@@ -129,10 +117,7 @@ def callback():
     r = requests.post(SPOTIFY_TOKEN_URL, payload)
     response_data = json.loads(r.text)
     # create Auth header for every request
-    try:
-        access_token = response_data['access_token']
-    except:
-        return "NOACCESS TOKEN"
+    access_token = response_data['access_token']
     global authToken
     authToken = access_token
     global auth_header
@@ -141,16 +126,6 @@ def callback():
     # -----AUTH FINISHED
     print("Success Authorization")
     return redirect(url_for('home'))
-
-
-@ app.route('/playback')
-def playback():
-    try:
-        if authToken != '':
-            return render_template('playback.html', authToken=authToken)
-
-    except:
-        return "login first -> redirectto logon pahge"
 
 if __name__ == "__main__":
     app.run(debug=True)
