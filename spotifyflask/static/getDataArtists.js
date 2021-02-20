@@ -11,16 +11,20 @@ function updatePage(time_range) {
         function (data, status, jqXHR) {
             console.log(data)
             data['items'].forEach((item) => {
-                let nametopArtist = document.createElement('td');
+                let nametopArtist = document.createElement('span');
                 let imagetopArtist = document.createElement('td');
                 let albImg = document.createElement('img');
 
                 let spLink = document.createElement('a');
                 spLink.href = item['external_urls']['spotify'];
                 albImg.src = item['images'][0]['url'];
-                spLink.append(item['name']);
-                imagetopArtist.append(albImg, spLink);
+                nametopArtist.append(item['name'])
+                spLink.append(albImg)
+                spLink.append(nametopArtist);
+
+                imagetopArtist.append(spLink);
                 albImg.classList.add('imgArtist');
+                albImg.href = item['external_urls']['spotify'];
                 let tableRow = document.createElement('tr');
                 tableRow.append(imagetopArtist);
                 $('.topArtists').append(tableRow);

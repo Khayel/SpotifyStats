@@ -18,6 +18,7 @@ API_VERSION = "v1"
 SPOTIFY_API_URL = "{}/{}".format(SPOTIFY_API_BASE_URL, API_VERSION)
 
 
+
 class topTrackOptions(Resource):
     def get(self):
         return spotifyAPI('me/top/tracks', 'time_range={}'.format(request.args['time_range']))
