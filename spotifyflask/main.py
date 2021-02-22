@@ -8,7 +8,7 @@ client_secret = '2efa5e6294444b8bb6cbe0b5d7604a5a'
 auth_payload = {
     'client_id': client_id,
     'response_type': 'code',
-    'redirect_uri': 'http://localhost:5000/callback/q',
+    'redirect_uri': 'http://192.168.1.73:5000/callback/q',
     'scope': 'playlist-modify-public user-top-read playlist-modify-private streaming user-read-email user-read-private'
 }
 SPOTIFYAUTH_URL = "https://accounts.spotify.com/authorize"
@@ -111,7 +111,7 @@ def callback():
     payload = {
         "grant_type": "authorization_code",
         "code": str(request.args['code']),
-        "redirect_uri": 'http://localhost:5000/callback/q',
+        "redirect_uri": 'http://192.168.1.73:5000/callback/q',
         'client_id': client_id,
         'client_secret': client_secret
     }
@@ -129,4 +129,4 @@ def callback():
     return redirect(url_for('home'))
 
 if __name__ == "__main__":
-    app.run(debug=True)
+    app.run(debug=True, host='192.168.1.73')
