@@ -15,28 +15,62 @@
 
 
 <body>
+    <div class="topcontainer">
+        <nav class="menu">
+            <h2>Top Tracks</h2>
+            <button value="short_term" class="short_term time_range selected">Short Term(4 weeks)</button>
+            <button value="medium_term" class="medium_term time_range">Medium term(6 months)</button>
+            <button value="long_term" class="long_term time_range">All-time</button>
+            <button class="playlist">Make a Playlist</button>
+            <a href="Tracks"></a>
+        </nav>
+        <div class="main-content">
+            <div class="resultTable">
 
-    <header>
-        <h2>Top Tracks</h2>
-        <button value="short_term" class="short_term time_range selected">Short Term(4 weeks)</button>
-        <button value="medium_term" class="medium_term time_range">Medium term(6 months)</button>
-        <button value="long_term" class="long_term time_range">All-time</button>
-        <button class="playlist btn btn-white btn-animate">Make a Playlist</button>
-    </header>
-    <div class="main-content">
-        <table class="resultTable" id="dataTable" width="100%" cellspacing="0">
-            <thead>
-                <tr>
-                    <th></th>
-                    <th></th>
 
-                </tr>
-            </thead>
-            <tbody class="topTrackResult">
-            </tbody>
-        </table>
+                <!-- <table class="resultTable" id="dataTable" width="100%" cellspacing="0">
+                <thead>
+                    <tr>
+                        <th></th>
+                        <th></th>
+
+                    </tr>
+                </thead>
+                <tbody class="topTrackResult">
+                    <tr>
+                        <td><img src="https://i.scdn.co/image/ab67616d0000b273fc4f17340773c6c3579fea0d"
+                                class="imgTrack">
+                        </td>
+                        <td class="nameTrack">Whole Lotta Love - 1990 Remaster</td>
+                    </tr>
+                    <tr>
+                        <td><img src="https://i.scdn.co/image/ab67616d0000b273fc4f17340773c6c3579fea0d"
+                                class="imgTrack">
+                        </td>
+                        <td class="nameTrack">Whole Lotta Love - 1990 Remaster</td>
+                    </tr>
+                    <tr>
+                        <td><img src="https://i.scdn.co/image/ab67616d0000b273fc4f17340773c6c3579fea0d"
+                                class="imgTrack">
+                        </td>
+                        <td class="nameTrack">Whole Lotta Love - 1990 Remaster</td>
+                    </tr>
+                    <tr>
+                        <td><img src="https://i.scdn.co/image/ab67616d0000b273fc4f17340773c6c3579fea0d"
+                                class="imgTrack">
+                        </td>
+                        <td class="nameTrack">Whole Lotta Love - 1990 Remaster</td>
+                    </tr>
+                </tbody>
+
+
+                </tbody>
+            </table> -->
+            </div>
+
+
+        </div>
     </div>
-
     <script src="http://code.jquery.com/jquery-1.11.0.min.js"></script>
     <script type=text/javascript>
         $SCRIPT_ROOT = {{ request.script_root|tojson|safe }};
@@ -44,7 +78,6 @@
         </script>
     <script src="../static/getData.js"></script>
     <script src="{{url_for('static', filename='getDataTracks.js')}}"></script>
-    </div>
 </body>
 
 </html>
