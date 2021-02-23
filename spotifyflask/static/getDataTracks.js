@@ -1,7 +1,7 @@
 console.log("THIS FILE LOOADED");
 updatePage('short_term')
 function clearSelected() {
-    $('.topTrackResult').empty()
+    $('.resultTable').empty()
     document.querySelectorAll('.time_range').forEach(bt => bt.classList.remove('selected'));
 };
 
@@ -15,7 +15,7 @@ function updatePage(time_range) {
             for (let x = 0; x < data['items'].length; x++) {
                 console.log(status)
                 console.log(data['items'][x])
-                let nametopTracks = document.createElement('td');
+                let nametopTracks = document.createElement('div');
                 let imagetopTracks = document.createElement('td');
                 let albImg = document.createElement('img');
                 let albumName = document.createElement('span');
@@ -31,12 +31,13 @@ function updatePage(time_range) {
                 albumName.classList.add('albumTrack');
                 artistName.classList.add('artistTrack');
 
-                imagetopTracks.append(nametopTracks, albumName, artistName)
+                // imagetopTracks.append(nametopTracks, albumName, artistName)
 
 
-                let tableRow = document.createElement('tr');
-                tableRow.append(imagetopTracks);
-                $('.topTrackResult').append(tableRow);
+                let tableRow = document.createElement('div');
+                tableRow.classList.add('result');
+                tableRow.append(albImg, nametopTracks, albumName, artistName);
+                $('.resultTable').append(tableRow);
             }
         })
 };

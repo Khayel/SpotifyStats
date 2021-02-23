@@ -1,5 +1,5 @@
 function clearSelected() {
-    $('.topArtists').empty()
+    $('.resultTable').empty()
     document.querySelectorAll('.time_range').forEach(bt => bt.classList.remove('selected'));
 };
 
@@ -11,7 +11,7 @@ function updatePage(time_range) {
         function (data, status, jqXHR) {
             console.log(data)
             data['items'].forEach((item) => {
-                let nametopArtist = document.createElement('span');
+                let nametopArtist = document.createElement('div');
                 let imagetopArtist = document.createElement('td');
                 let albImg = document.createElement('img');
 
@@ -25,9 +25,11 @@ function updatePage(time_range) {
                 imagetopArtist.append(spLink);
                 albImg.classList.add('imgArtist');
                 albImg.href = item['external_urls']['spotify'];
-                let tableRow = document.createElement('tr');
-                tableRow.append(imagetopArtist);
-                $('.topArtists').append(tableRow);
+                albImg.classList.add('imgTrack');
+                let tableRow = document.createElement('div');
+                tableRow.classList.add('result');
+                tableRow.append(albImg, nametopArtist);
+                $('.resultTable').append(tableRow);
 
             })
         })
