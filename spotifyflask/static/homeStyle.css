@@ -8,7 +8,7 @@ html{
     box-sizing: border-box;
 }
 body{
-    background-image: url(../static/wave.svg), linear-gradient(43deg, rgba(103,2,162,1) 0%, rgba(149,0,255,1) 100%);;
+    background-image: url(../static/wave.svg), linear-gradient(43deg, rgba(103,2,162,1) 0%, rgba(149,0,255,1) 100%);
 
     background-position: bottom left; 
     background-repeat: no-repeat;
