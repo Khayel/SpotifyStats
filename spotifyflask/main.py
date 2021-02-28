@@ -3,8 +3,10 @@ from flask import Flask, request, redirect, render_template, url_for
 from flask_restful import Resource, Api
 import requests
 
+
 client_id = '36567bdba090467cbc6b6654ffbac5e6'
 client_secret = '2efa5e6294444b8bb6cbe0b5d7604a5a'
+#paylooad sent to spotify api
 auth_payload = {
     'client_id': client_id,
     'response_type': 'code',
