@@ -22,17 +22,22 @@ SPOTIFY_API_URL = "{}/{}".format(SPOTIFY_API_BASE_URL, API_VERSION)
 
 class topTrackOptions(Resource):
     def get(self):
+        """Returns list of top Artists
+        """
         return spotifyAPI('me/top/tracks', 'time_range={}'.format(request.args['time_range']))
 
 class topArtistOptions(Resource):
     def get(self):
+        """Returns list of top Artists
+        """
         return spotifyAPI('me/top/artists','time_range={}'.format(request.args['time_range']))
 
-#Create playlist POST https://api.spotify.com/v1/users/{user_id}/playlists 
-## with payload: name, description and public
-#Add Tracks to playlist POST https://api.spotify.com/v1/playlists/{playlist_id}/tracks?
-## with payload: uri of tracks 
+
 class createTopTrackPlaylist(Resource):
+    """
+    Create playlist POST https://api.spotify.com/v1/users/{user_id}/playlists 
+    Add Tracks to playlist POST https://api.spotify.com/v1/playlists/{playlist_id}/tracks?
+    """
     def post(self):
         print("HERE")
         auth_header = {"Authorization": "Bearer {}".format(session['auth_token'])}
@@ -40,22 +45,22 @@ class createTopTrackPlaylist(Resource):
         user_id = getUserID['id']
 
         time_range = request.form.get('time_range')
-        payload ={
+        payload = {
             "name": "TopTracks - {}".format(time_range),
             "description": "My Top Tracks in {}".format(time_range),
             "public": "false"
             }
         newPlayListRequest = '{}/users/{}/playlists'.format(SPOTIFY_API_URL, user_id)
-        resp = requests.post(newPlayListRequest,data=json.dumps(payload),headers=auth_header)
+        resp = requests.post(newPlayListRequest, data=json.dumps(payload), header=auth_header)
         resp = resp.json()
         playlist_Id = resp['id']
         print("Created PlayList with ID:", playlist_Id)
 
         trackList = spotifyAPI('me/top/tracks', 'time_range={}'.format(time_range))
-        payload={
+        payload = {
         "uris":[track['uri'] for track in trackList['items']]
         }
-        add_tracks =requests.post('{}/playlists/{}/tracks'.format(SPOTIFY_API_URL,playlist_Id), data=json.dumps(payload), headers=auth_header)
+        add_tracks = requests.post('{}/playlists/{}/tracks'.format(SPOTIFY_API_URL, playlist_Id), data=json.dumps(payload), headers=auth_header)
         return add_tracks.json()
 
 app = Flask(__name__)
@@ -66,9 +71,9 @@ api.add_resource(topTrackOptions, '/api/dateRange/tracks')
 api.add_resource(topArtistOptions, '/api/dateRange/artists')
 api.add_resource(createTopTrackPlaylist, '/api/createPlaylist')
 
-#helper function for calling spotifyAPI
 def spotifyAPI(reqString, param, reqType='GET'):
-
+    """Helper function for calling Spotify API"""
+    
     auth_header = {"Authorization": "Bearer {}".format(session['auth_token'])}
     print(auth_header)
     rString = '{}/{}?{}'.format(SPOTIFY_API_URL, reqString, param)
