@@ -31,12 +31,14 @@ function updatePage(time_range) {
                 albumName.classList.add('albumTrack');
                 artistName.classList.add('artistTrack');
 
-                // imagetopTracks.append(nametopTracks, albumName, artistName)
+                let info = document.createElement('div');
+                info.classList.add('info');
+                info.append(nametopTracks, albumName, artistName);
 
 
                 let tableRow = document.createElement('div');
                 tableRow.classList.add('result');
-                tableRow.append(albImg, nametopTracks, albumName, artistName);
+                tableRow.append(albImg, info);
                 $('.resultTable').append(tableRow);
             }
         })

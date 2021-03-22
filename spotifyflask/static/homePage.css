@@ -1,9 +1,31 @@
 html{
-    background: rgb(2,0,36);
-background: linear-gradient(90deg, rgba(2,0,36,1) 0%, rgba(116,0,184,1) 60%, rgba(128,255,219,1) 100%);
+    /* background: linear-gradient(-45deg, #ee7752, #e73c7e, #23a6d5, #23d5ab); */
+    background: linear-gradient(-45deg, #f72585, #560bad, #4361ee);
+    background-size: 400% 400%;
+    animation: gradient 20s linear infinite;
+
+height: 100%;
+box-sizing: border-box;
+}
+@keyframes gradient {
+    0% {
+        background-position: 0% 50%;
+    }
+    50% {
+        background-position: 100% 50%;
+    }
+    100% {
+        background-position: 0% 50%;
+    }
 }
 body{
-padding: 2vH;
+    height: 100%;
+    margin: 0;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+
 }
 h1{
     font-size: 10vH;
@@ -12,36 +34,28 @@ h3{
     font-size: 2vh;
 }
 h1,h3 {
-    color: #80ffdb;
+    
     font-family: 'Sora', sans-serif;
 }
+.desc {
+    text-align: center;
+    line-height: 2em;
+    margin-bottom: 4em;
+}
 
-.parent {
-    display: grid;
-    grid-template-columns: 4fr 2fr;
-    grid-template-rows: 1fr;
-    grid-row-gap: 0px;
-    height: 70vH;
-    
-   
-    }
+.parent{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    padding: 4em;
+    border-radius: 2em;
+    background-color: white;
+}
     a{
         text-decoration: none;}
     
-    .div1 { grid-area: 1 / 1 / 2 / 2;
-        display: flex;
-        flex-direction: column;
-        align-content: right;
-        justify-content: center;
-        text-align: center
-     }
-    .div2 { grid-area: 1 / 2 / 2 / 3;
-        display: flex;
-        flex-direction: column;
-        justify-content: center;
-        padding: 5vH;
-     }
-
+    
      .btn {
         border-radius: 60px;
         font-family: 'Sora', sans-serif;
@@ -59,13 +73,8 @@ h1,h3 {
       }
       
       .btn:hover {
-        background: white;
         text-decoration: none;
-        color: #7400b8;
         transform:scale(1.1);
         transition: 0.4s;
       }
       
-svg {
-    width: 100%;
-}

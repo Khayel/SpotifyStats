@@ -1,17 +1,16 @@
 import json
-from flask import Flask, request, redirect, render_template, url_for
+from flask import Flask, request, redirect, render_template, url_for,session
 from flask_restful import Resource, Api
 import requests
+import os
 
-
-client_id = '36567bdba090467cbc6b6654ffbac5e6'
-client_secret = '2efa5e6294444b8bb6cbe0b5d7604a5a'
-#paylooad sent to spotify api
+client_id = CLIENT_ID
+client_secret = CLIENT_SECRET 
 auth_payload = {
     'client_id': client_id,
     'response_type': 'code',
-    'redirect_uri': 'http://192.168.1.73:5000/callback/q',
-    'scope': 'playlist-modify-public user-top-read playlist-modify-private streaming user-read-email user-read-private'
+    'redirect_uri': 'http://spotifystats-flask.herokuapp.com/callback/q',
+    'scope': 'playlist-modify-public user-top-read playlist-modify-private user-read-email user-read-private'
 }
 SPOTIFYAUTH_URL = "https://accounts.spotify.com/authorize"
 SPOTIFY_TOKEN_URL = "https://accounts.spotify.com/api/token"
@@ -35,6 +34,8 @@ class topArtistOptions(Resource):
 ## with payload: uri of tracks 
 class createTopTrackPlaylist(Resource):
     def post(self):
+        print("HERE")
+        auth_header = {"Authorization": "Bearer {}".format(session['auth_token'])}
         getUserID = spotifyAPI('me','')   
         user_id = getUserID['id']
 
@@ -58,6 +59,7 @@ class createTopTrackPlaylist(Resource):
         return add_tracks.json()
 
 app = Flask(__name__)
+app.secret_key = os.urandom(24)
 api = Api(app)
 
 api.add_resource(topTrackOptions, '/api/dateRange/tracks')
@@ -66,6 +68,9 @@ api.add_resource(createTopTrackPlaylist, '/api/createPlaylist')
 
 #helper function for calling spotifyAPI
 def spotifyAPI(reqString, param, reqType='GET'):
+
+    auth_header = {"Authorization": "Bearer {}".format(session['auth_token'])}
+    print(auth_header)
     rString = '{}/{}?{}'.format(SPOTIFY_API_URL, reqString, param)
     if reqType == 'GET':
         print(" SPOTIFY API REQUEST: ", rString)
@@ -79,7 +84,6 @@ def home():
 
 @ app.route("/topTracks")
 def topTracks():
-    topTracks = spotifyAPI('me/top/tracks', 'time_range=short_term')
     return render_template("tracks.html", topTracks=topTracks)
 
 @ app.route("/topArtists")
@@ -113,7 +117,7 @@ def callback():
     payload = {
         "grant_type": "authorization_code",
         "code": str(request.args['code']),
-        "redirect_uri": 'http://192.168.1.73:5000/callback/q',
+        "redirect_uri": 'http://spotifystats-flask.herokuapp.com/callback/q',
         'client_id': client_id,
         'client_secret': client_secret
     }
@@ -121,14 +125,14 @@ def callback():
     response_data = json.loads(r.text)
     # create Auth header for every request
     access_token = response_data['access_token']
-    global authToken
-    authToken = access_token
-    global auth_header
-    auth_header = {"Authorization": "Bearer {}".format(access_token)}
+    
+    auth_token = access_token
+    session['auth_token'] = auth_token
+    # auth_header = {"Authorization": "Bearer {}".format(access_token)}
 
     # -----AUTH FINISHED
     print("Success Authorization")
     return redirect(url_for('home'))
 
 if __name__ == "__main__":
-    app.run(debug=True, host='192.168.1.73')
+    app.run(debug=True)

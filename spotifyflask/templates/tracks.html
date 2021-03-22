@@ -5,7 +5,7 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
+    <title>Top Tracks</title>
     <link rel="stylesheet" href="{{ url_for('static', filename= 'tableStyle.css') }}">
     <link rel="stylesheet" href="../static/tableStyle.css">
     <link rel="preconnect" href="https://fonts.gstatic.com">
@@ -17,55 +17,20 @@
 <body>
     <div class="topcontainer">
         <nav class="menu">
-            <h2>Top Tracks</h2>
-            <button value="short_term" class="short_term time_range selected">Short Term(4 weeks)</button>
-            <button value="medium_term" class="medium_term time_range">Medium term(6 months)</button>
-            <button value="long_term" class="long_term time_range">All-time</button>
-            <button class="playlist">Make a Playlist</button>
-            <a href="Tracks"></a>
+            <span class="page-title">
+                <h2>Top Tracks</h2>
+            </span>
+
+            <div class="filters">
+                <button value="short_term" class="short_term time_range selected">4 weeks</button>
+                <button value="medium_term" class="medium_term time_range">6 months</button>
+                <button value="long_term" class="long_term time_range">All-time</button>
+            </div>
+            <button class="playlist">Make it a Playlist</button>
+            <a class="other_page" href="{{url_for('topArtists')}}">Top Artists</a>
         </nav>
         <div class="main-content">
             <div class="resultTable">
-
-
-                <!-- <table class="resultTable" id="dataTable" width="100%" cellspacing="0">
-                <thead>
-                    <tr>
-                        <th></th>
-                        <th></th>
-
-                    </tr>
-                </thead>
-                <tbody class="topTrackResult">
-                    <tr>
-                        <td><img src="https://i.scdn.co/image/ab67616d0000b273fc4f17340773c6c3579fea0d"
-                                class="imgTrack">
-                        </td>
-                        <td class="nameTrack">Whole Lotta Love - 1990 Remaster</td>
-                    </tr>
-                    <tr>
-                        <td><img src="https://i.scdn.co/image/ab67616d0000b273fc4f17340773c6c3579fea0d"
-                                class="imgTrack">
-                        </td>
-                        <td class="nameTrack">Whole Lotta Love - 1990 Remaster</td>
-                    </tr>
-                    <tr>
-                        <td><img src="https://i.scdn.co/image/ab67616d0000b273fc4f17340773c6c3579fea0d"
-                                class="imgTrack">
-                        </td>
-                        <td class="nameTrack">Whole Lotta Love - 1990 Remaster</td>
-                    </tr>
-                    <tr>
-                        <td><img src="https://i.scdn.co/image/ab67616d0000b273fc4f17340773c6c3579fea0d"
-                                class="imgTrack">
-                        </td>
-                        <td class="nameTrack">Whole Lotta Love - 1990 Remaster</td>
-                    </tr>
-                </tbody>
-
-
-                </tbody>
-            </table> -->
             </div>
 
 
@@ -74,7 +39,8 @@
     <script src="http://code.jquery.com/jquery-1.11.0.min.js"></script>
     <script type=text/javascript>
         $SCRIPT_ROOT = {{ request.script_root|tojson|safe }};
-        console.log($SCRIPT_ROOT)
+        console.log($SCRIPT_ROOT);
+
         </script>
     <script src="../static/getData.js"></script>
     <script src="{{url_for('static', filename='getDataTracks.js')}}"></script>

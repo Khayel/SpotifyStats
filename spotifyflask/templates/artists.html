@@ -5,7 +5,7 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
+    <title>Top Artists</title>
     <link rel="stylesheet" href="{{ url_for('static', filename= 'tableStyle.css') }}">
     <!-- <link rel="stylesheet" href="../static/tableStyle.css"> -->
     <link rel="preconnect" href="https://fonts.gstatic.com">
@@ -18,12 +18,15 @@
 
     <div class="topcontainer">
         <nav class="menu">
-            <h2>Top Tracks</h2>
-            <button value="short_term" class="short_term time_range selected">Short Term(4 weeks)</button>
-            <button value="medium_term" class="medium_term time_range">Medium term(6 months)</button>
-            <button value="long_term" class="long_term time_range">All-time</button>
-            <button class="playlist">Make a Playlist</button>
-            <a href="Tracks"></a>
+            <span class="page-title">
+                <h2>Top Artists</h2>
+            </span>
+            <div class="filters">
+                <button value="short_term" class="short_term time_range selected">4 weeks</button>
+                <button value="medium_term" class="medium_term time_range">6 months</button>
+                <button value="long_term" class="long_term time_range">All-time</button>
+            </div>
+            <a class="other_page" href="{{url_for('topTracks')}}">Top Tracks</a>
         </nav>
         <div class="main-content">
             <div class="resultTable">
