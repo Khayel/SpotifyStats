@@ -1,4 +1,5 @@
-#Spotify Flask
+# Spotify Flask
+
 Demo here - http://spotifystats-flask.herokuapp.com/ 
 Web Application that allows users to sign in with their Spotify API and view top tracks and artists. 
 
