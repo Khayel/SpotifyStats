@@ -56,5 +56,5 @@ document.querySelector('.long_term').addEventListener('click', (e) => {
     long.classList.add('selected')
 });
 
-// Default page looad
+// Default page load
 updatePage('short_term')

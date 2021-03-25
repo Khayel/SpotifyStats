@@ -73,7 +73,7 @@ api.add_resource(createTopTrackPlaylist, '/api/createPlaylist')
 
 def spotifyAPI(reqString, param, reqType='GET'):
     """Helper function for calling Spotify API"""
-    
+
     auth_header = {"Authorization": "Bearer {}".format(session['auth_token'])}
     print(auth_header)
     rString = '{}/{}?{}'.format(SPOTIFY_API_URL, reqString, param)
@@ -96,9 +96,10 @@ def topArtists():
     topArtists = spotifyAPI('me/top/artists', 'time_range=short_term')
     return render_template("artists.html", topArtists=topArtists)
 
-#Landing Page
+
 @ app.route("/")
 def index():
+    #Landing Page
     return render_template('intro.html')
 
 
